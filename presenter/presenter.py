@@ -20,7 +20,7 @@ class Presenter:
         if self.state == self.model.STATE_IDLE or self.state == self.model.STATE_PAUSED:
             self.state = self.model.STATE_RUNNING
             self.view.set_running_state()
-            self.model.start_time = time.time()
+            self.model.start_time = time.time() - self.model.get_seconds()
             self.process_update_clock()
         elif self.state == self.model.STATE_RUNNING:
             self.state = self.model.STATE_PAUSED
