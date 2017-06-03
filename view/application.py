@@ -26,5 +26,5 @@ class Application(tk.Frame):
         self.btn_stop["state"] = "disabled"
 
         self.quit = tk.Button(self, text="Quit", fg="red",
-                              command=self.tkinter.destroy)
+                              command=self.master_view.handle_quit)
         self.quit.pack(side="right")

@@ -6,8 +6,8 @@ import view.application
 
 class View:
     def __init__(self):
-        root = tk.Tk()
-        self.app = view.application.Application(tkinter=root, master_view=self)
+        self.tkinter = tk.Tk()
+        self.app = view.application.Application(tkinter=self.tkinter, master_view=self)
 
     def register_observer(self, presenter):
         self.presenter = presenter
@@ -42,3 +42,7 @@ class View:
 
     def handle_stop(self):
         self.presenter.process_stop()
+
+    def handle_quit(self):
+        self.tkinter.destroy()
+        self.presenter.process_quit()

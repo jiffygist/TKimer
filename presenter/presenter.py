@@ -36,10 +36,14 @@ class Presenter:
 
     def process_update_clock(self):
         self.view.update_clock(self.model.get_seconds())
-        if (self.state == self.model.STATE_RUNNING):
+        if self.state == self.model.STATE_RUNNING:
             self.model.time = time.time()
             self.new_time_thread()
             self.time_thread.start()
+
+    def process_quit(self):
+        self.cancel_time_thread()
+        # End of program.
 
     def run(self):
         self.view.start()
