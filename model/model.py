@@ -1,3 +1,7 @@
 
 class Model():
-    pass
+    STATE_RUNNING = "RUNNING"
+    STATE_PAUSED = "PAUSED"
+    STATE_IDLE = "IDLE"
+
+

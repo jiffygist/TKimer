@@ -12,10 +12,24 @@ class View():
     def start(self):
         self.app.mainloop()
 
+    def set_idle_state(self):
+        self.set_paused_state()
+        self.app.btn_stop["state"] = "disabled"
+
+    def set_paused_state(self):
+        self.app.btn_startpause["text"] = "Start"
+
+    def set_running_state(self):
+        self.app.btn_startpause["text"] = "Pause"
+        self.app.btn_stop["state"] = "normal"
+
     # Widget interaction handlers
 
-    def handler_button_clicked(self):
-        self.presenter.process_button_clicked()
+    def handle_startpause(self):
+        self.presenter.process_startpause()
+
+    def handle_stop(self):
+        self.presenter.process_stop()
 
 
 

@@ -5,15 +5,22 @@ class Application(tk.Frame):
         super().__init__(tkinter)
         self.tkinter = tkinter
         self.master_view = master_view
+        self.master.title("TKimer")
         self.pack()
         self.create_widgets()
 
     def create_widgets(self):
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Hello World\n(click me)"
-        self.hi_there["command"] = self.master_view.handler_button_clicked
-        self.hi_there.pack(side="top")
+        self.btn_startpause = tk.Button(self)
+        self.btn_startpause["text"] = "Start"
+        self.btn_startpause["command"] = self.master_view.handle_startpause
+        self.btn_startpause.pack(side="left")
 
-        self.quit = tk.Button(self, text="QUIT", fg="red",
+        self.btn_stop = tk.Button(self)
+        self.btn_stop["text"] = "Stop"
+        self.btn_stop["command"] = self.master_view.handle_stop
+        self.btn_stop.pack(side="left")
+        self.btn_stop["state"] = "disabled"
+
+        self.quit = tk.Button(self, text="Quit", fg="red",
                               command=self.tkinter.destroy)
-        self.quit.pack(side="bottom")
+        self.quit.pack(side="right")
