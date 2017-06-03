@@ -10,6 +10,9 @@ class Application(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
+        self.lbl_time = tk.Label(text="00:00:00")
+        self.lbl_time.pack(side="top")
+
         self.btn_startpause = tk.Button(self)
         self.btn_startpause["text"] = "Start"
         self.btn_startpause["command"] = self.master_view.handle_startpause

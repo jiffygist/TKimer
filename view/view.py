@@ -1,6 +1,8 @@
 import tkinter as tk
 import view.application
 
+import time
+
 class View():
     def __init__(self):
         root = tk.Tk()
@@ -11,6 +13,12 @@ class View():
 
     def start(self):
         self.app.mainloop()
+
+    # Widget updaters
+
+    def update_clock(self, seconds):
+        time_string = str(seconds)
+        self.app.lbl_time["text"] = time_string
 
     def set_idle_state(self):
         self.set_paused_state()
@@ -25,12 +33,11 @@ class View():
 
     # Widget interaction handlers
 
+    def handle_update_clock(self):
+        self.presenter.process_update_clock()
+
     def handle_startpause(self):
         self.presenter.process_startpause()
 
     def handle_stop(self):
         self.presenter.process_stop()
-
-
-
-
