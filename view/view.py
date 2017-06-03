@@ -1,9 +1,10 @@
+import time
 import tkinter as tk
+
 import view.application
 
-import time
 
-class View():
+class View:
     def __init__(self):
         root = tk.Tk()
         self.app = view.application.Application(tkinter=root, master_view=self)
@@ -17,7 +18,7 @@ class View():
     # Widget updaters
 
     def update_clock(self, seconds):
-        time_string = str(seconds)
+        time_string = time.strftime('%H:%M:%S', time.gmtime(seconds))
         self.app.lbl_time["text"] = time_string
 
     def set_idle_state(self):
