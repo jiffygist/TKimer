@@ -6,7 +6,8 @@ class Application(tk.Frame):
         super().__init__(tkinter)
         self.tkinter = tkinter
         self.master_view = master_view
-        self.master.title("TKimer")
+        self.tkinter.title("TKimer")
+        self.tkinter.protocol("WM_DELETE_WINDOW", self.master_view.handle_quit)
         self.pack()
         self.create_widgets()
 
