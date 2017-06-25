@@ -25,13 +25,13 @@ class Application(tk.Frame):
         self.btn_startpause["command"] = self.master_view.handle_startpause
         self.btn_startpause.pack(side="left")
 
-        self.btn_stop = tk.Button(self)
-        self.btn_stop["text"] = "Stop"
-        self.btn_stop["font"] = self.BUTTON_FONT
-        self.btn_stop["command"] = self.master_view.handle_stop
-        self.btn_stop.pack(side="left")
-        self.btn_stop["state"] = "disabled"
+        self.btn_reset = tk.Button(self)
+        self.btn_reset["text"] = "Stop"
+        self.btn_reset["font"] = self.BUTTON_FONT
+        self.btn_reset["command"] = self.master_view.handle_reset
+        self.btn_reset.pack(side="left")
+        self.btn_reset["state"] = "disabled"
 
-        self.quit = tk.Button(self, text="Quit", fg="red", font=self.BUTTON_FONT,
-                              command=self.master_view.handle_quit)
-        self.quit.pack(side="right")
+        #self.quit = tk.Button(self, text="Quit", fg="red", font=self.BUTTON_FONT,
+        #                      command=self.master_view.handle_quit)
+        #self.quit.pack(side="right")
