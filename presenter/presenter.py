@@ -1,49 +1,44 @@
-import threading
 import time
+from enum import Enum
+
+# from model.model import Model
+
+
+class State(Enum):
+    RUNNING = 1
+    PAUSED = 2
+    IDLE = 3
 
 
 class Presenter:
-    def __init__(self, model, view):
-        self.model = model
+    def __init__(self, view):
         self.view = view
-        self.state = self.model.STATE_IDLE
-        self.new_time_thread()
+        # self.model = Model()
+        self.reset_time()
+        self.state = State.IDLE
 
-    def new_time_thread(self):
-        self.time_thread = threading.Timer(self.model.TIMER_UPDATE_DELTA, self.process_update_clock)
+    def handle_startpause(self):
+        if self.state == State.IDLE or self.state == State.PAUSED:
+            self.start_time = time.time()
+            self.state = State.RUNNING
+        elif self.state == State.RUNNING:
+            self.update_time()
+            self.state = State.PAUSED
+        self.update_view()
 
-    def cancel_time_thread(self):
-        self.time_thread.cancel()
-        self.new_time_thread()
+    def handle_reset(self):
+        self.reset_time()
+        self.state = State.IDLE
+        self.update_view()
 
-    def process_startpause(self):
-        if self.state == self.model.STATE_IDLE or self.state == self.model.STATE_PAUSED:
-            self.state = self.model.STATE_RUNNING
-            self.view.set_running_state()
-            self.model.start_time = time.time() - self.model.get_seconds()
-            self.process_update_clock()
-        elif self.state == self.model.STATE_RUNNING:
-            self.state = self.model.STATE_PAUSED
-            self.view.set_paused_state()
-            self.cancel_time_thread()
+    def reset_time(self):
+        self.time = 0.0
 
-    def process_stop(self):
-        self.state = self.model.STATE_IDLE
-        self.model.reset_time()
-        self.cancel_time_thread()
-        self.process_update_clock()
-        self.view.set_idle_state()
+    def update_time(self):
+        if self.state == State.RUNNING:
+            current_time = time.time()
+            self.time += current_time - self.start_time
+            self.start_time = current_time
 
-    def process_update_clock(self):
-        self.view.update_clock(self.model.get_seconds())
-        if self.state == self.model.STATE_RUNNING:
-            self.model.time = time.time()
-            self.new_time_thread()
-            self.time_thread.start()
-
-    def process_quit(self):
-        self.cancel_time_thread()
-        # End of program.
-
-    def run(self):
-        self.view.start()
+    def update_view(self):
+        self.view.update(int(self.time), self.state)
