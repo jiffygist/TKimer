@@ -12,10 +12,10 @@ class Timer:
     def start(self):
         self.start_time = time.time()
 
-    def move_forward(self):
+    def update(self):
         current_time = time.time()
         self.time += current_time - self.start_time
         self.start_time = current_time
 
-    def get_time(self):
-        return self.time
+    def get_seconds(self):
+        return int(self.time)

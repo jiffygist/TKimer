@@ -1,4 +1,5 @@
 from state import State
+from button import Button
 from timer import Timer
 # from model import Model
 
@@ -10,23 +11,36 @@ class Presenter:
         self.timer = Timer()
         self.state = State.IDLE
 
-    def handle_startpause(self):
-        if self.state == State.IDLE or self.state == State.PAUSED:
-            self.timer.start()
-            self.state = State.RUNNING
-        elif self.state == State.RUNNING:
-            self.update_time()
-            self.state = State.PAUSED
-        self.update_view()
+    def do_run(self):
+        self.timer.start()
 
-    def handle_reset(self):
+    def do_pause(self):
+        self.update_time()
+
+    def do_reset(self):
         self.timer.reset()
-        self.state = State.IDLE
+
+    def handle_event(self, button):
+
+        dispatch_table = {
+            # Format: (button, current_state) : (action, new_state)
+            (Button.START, State.IDLE): (self.do_run, State.RUNNING),
+            (Button.START, State.RUNNING): (self.do_pause, State.PAUSED),
+            (Button.START, State.PAUSED): (self.do_run, State.RUNNING),
+            (Button.RESET, State.IDLE): (self.do_reset, State.IDLE),
+            (Button.RESET, State.RUNNING): (self.do_reset, State.IDLE),
+            (Button.RESET, State.PAUSED): (self.do_reset, State.IDLE)
+        }
+
+        action, new_state = dispatch_table[(button, self.state)]
+        action()
+        self.state = new_state
         self.update_view()
 
     def update_time(self):
         if self.state == State.RUNNING:
-            self.timer.move_forward()
+            self.timer.update()
 
     def update_view(self):
-        self.view.update(int(self.timer.get_time()), self.state)
+        seconds = self.timer.get_seconds()
+        self.view.update(seconds, self.state)

@@ -3,6 +3,7 @@ import tkinter as tk
 
 import application
 from state import State
+from button import Button
 from presenter import Presenter
 
 UPDATE_TIME_MSEC = 500
@@ -32,11 +33,11 @@ class View:
 
     # Widget interaction handlers
 
-    def handle_startpause(self):
-        self.presenter.handle_startpause()
+    def handle_start(self):
+        self.presenter.handle_event(Button.START)
 
     def handle_reset(self):
-        self.presenter.handle_reset()
+        self.presenter.handle_event(Button.RESET)
 
     def handle_quit(self):
         self.tkinter.destroy()
